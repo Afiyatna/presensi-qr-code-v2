@@ -1,0 +1,150 @@
+/* style.css - Styling modern untuk aplikasi presensi QR */
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f4f8fb;
+  color: #222;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+h2, h3 {
+  color: #2563eb;
+  margin-top: 24px;
+}
+
+form {
+  background: #fff;
+  padding: 24px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  max-width: 400px;
+  margin: 24px auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+label {
+  font-size: 1rem;
+  color: #333;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+select {
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 4px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #f9fafb;
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+input:focus, select:focus {
+  border-color: #2563eb;
+  outline: none;
+}
+
+button {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 12px 0;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.2s;
+}
+button:hover {
+  background: #1d4ed8;
+}
+
+#result {
+  text-align: center;
+  font-size: 1rem;
+  margin: 16px auto 0 auto;
+  max-width: 400px;
+  padding: 10px;
+  border-radius: 6px;
+  background: #e0e7ff;
+  color: #1e293b;
+}
+
+#qrcode {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+/* Tabel */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+th, td {
+  padding: 10px 8px;
+  border: 1px solid #e5e7eb;
+  text-align: left;
+}
+th {
+  background: #2563eb;
+  color: #fff;
+}
+tr:nth-child(even) {
+  background: #f1f5f9;
+}
+
+/* Layout responsif */
+@media (max-width: 600px) {
+  form, #result {
+    max-width: 98vw;
+    padding: 16px 4vw;
+  }
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+  th, td {
+    padding: 8px 4px;
+    border: none;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  th {
+    background: #2563eb;
+    color: #fff;
+    font-size: 1rem;
+  }
+  tr {
+    margin-bottom: 10px;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    border-radius: 6px;
+    padding: 4px 0;
+  }
+}
+
+/* QR Scanner area */
+#reader {
+  margin: 0 auto;
+  max-width: 340px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 16px 0 8px 0;
+}
+
+/* Utility */
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} 
