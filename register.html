@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrasi User - Presensi QR</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h2>Registrasi User</h2>
+  <form id="registerForm">
+    <label>Nama Lengkap:<br><input type="text" name="nama" required></label><br>
+    <label>Jenis Kelamin:<br>
+      <select name="gender" required>
+        <option value="">Pilih</option>
+        <option value="Laki-laki">Laki-laki</option>
+        <option value="Perempuan">Perempuan</option>
+      </select>
+    </label><br>
+    <label>Tempat Tanggal Lahir:<br><input type="text" name="ttl" required placeholder="Contoh: Jakarta, 01-01-2000"></label><br>
+    <label>Kelompok:<br><input type="text" name="kelompok" required></label><br>
+    <label>Email:<br><input type="email" name="email" required></label><br>
+    <label>Password:<br><input type="password" name="password" required></label><br>
+    <button type="submit">Daftar</button>
+  </form>
+  <div id="result" style="margin-top:20px;"></div>
+  <div id="qrcode" style="margin-top:20px;"></div>
+
+  <script src="js/hash.js"></script>
+  <script src="js/qrcode.min.js"></script>
+  <script src="js/api.js"></script>
+  <script>
+    document.getElementById('registerForm').onsubmit = async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const hashed = await sha256(form.password.value);
+      const data = {
+        action: 'register',
+        nama: form.nama.value,
+        gender: form.gender.value,
+        ttl: form.ttl.value,
+        kelompok: form.kelompok.value,
+        email: form.email.value,
+        password: hashed
+      };
+      document.getElementById('result').innerText = 'Mendaftarkan...';
+      const res = await apiRequest(data);
+      if (res.status === 'success') {
+        document.getElementById('result').innerHTML = 'Registrasi berhasil!<br>Silakan cek email untuk verifikasi akun Anda.';
+        if (res.message) document.getElementById('result').innerHTML += '<br>' + res.message;
+        document.getElementById('qrcode').innerHTML = '';
+        new QRCode(document.getElementById('qrcode'), {
+          text: res.id,
+          width: 200,
+          height: 200
+        });
+      } else {
+        document.getElementById('result').innerText = 'Gagal: ' + res.message;
+        document.getElementById('qrcode').innerHTML = '';
+      }
+    };
+  </script>
+</body>
+</html> 

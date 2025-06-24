@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard User - Presensi QR</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h2>Dashboard User</h2>
+  <button onclick="logoutUser()">Logout</button>
+  <div id="qrcode" style="margin:20px 0;"></div>
+  <h3>Riwayat Presensi</h3>
+  <table border="1" id="presensiTable">
+    <thead>
+      <tr><th>Tanggal & Waktu</th><th>Kelompok</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="js/qrcode.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // Cek session user
+    const user = getUserSession();
+    if (!user) {
+      window.location.href = 'login.html';
+    }
+    // Tampilkan QR Code user
+    document.getElementById('qrcode').innerHTML = '';
+    new QRCode(document.getElementById('qrcode'), {
+      text: user.id,
+      width: 200,
+      height: 200
+    });
+    // Ambil dan tampilkan riwayat presensi
+    (async function() {
+      const res = await apiRequest({action: 'getPresensi'});
+      if (res.status === 'success') {
+        const tbody = document.querySelector('#presensiTable tbody');
+        tbody.innerHTML = '';
+        res.presensi.filter(p => p[1] === user.id).forEach(p => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${new Date(p[0]).toLocaleString()}</td><td>${p[3]}</td>`;
+          tbody.appendChild(tr);
+        });
+      }
+    })();
+  </script>
+</body>
+</html> 

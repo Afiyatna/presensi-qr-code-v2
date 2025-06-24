@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Presensi QR - Scan</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h2>Presensi QR - Scan QR Code</h2>
+  <div id="reader" style="width:300px;"></div>
+  <div id="result" style="margin-top:20px;"></div>
+
+  <script src="js/html5-qrcode.min.js"></script>
+  <script src="js/api.js"></script>
+  <script>
+    function onScanSuccess(decodedText, decodedResult) {
+      document.getElementById('result').innerText = 'Memproses presensi...';
+      html5QrcodeScanner.clear();
+      apiRequest({action: 'presensi', id: decodedText}).then(res => {
+        if (res.status === 'success') {
+          document.getElementById('result').innerText = 'Presensi berhasil!';
+        } else {
+          document.getElementById('result').innerText = 'Gagal: ' + res.message;
+        }
+        setTimeout(() => window.location.reload(), 2000);
+      });
+    }
+    var html5QrcodeScanner = new Html5QrcodeScanner(
+      "reader", { fps: 10, qrbox: 250 }
+    );
+    html5QrcodeScanner.render(onScanSuccess);
+  </script>
+</body>
+</html> 

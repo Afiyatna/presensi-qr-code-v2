@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Admin - Presensi QR</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h2>Dashboard Admin</h2>
+  <button onclick="logoutAdmin()">Logout</button>
+  <h3>Daftar User</h3>
+  <table border="1" id="userTable">
+    <thead>
+      <tr><th>ID</th><th>Nama</th><th>Gender</th><th>TTL</th><th>Kelompok</th><th>Email</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <h3>Data Presensi</h3>
+  <label>Filter Kelompok: <input type="text" id="filterKelompok"></label>
+  <label>Filter Tanggal: <input type="date" id="filterTanggal"></label>
+  <button onclick="renderPresensiTable()">Terapkan Filter</button>
+  <button onclick="exportPresensiCSV()">Export CSV</button>
+  <table border="1" id="presensiTable" style="margin-top:10px;">
+    <thead>
+      <tr><th>Tanggal & Waktu</th><th>ID User</th><th>Nama</th><th>Kelompok</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // Cek session admin
+    const admin = getAdminSession();
+    if (!admin) window.location.href = 'login.html';
+    let allPresensi = [];
+    // Tampilkan daftar user
+    (async function() {
+      const res = await apiRequest({action: 'getUsers'});
+      if (res.status === 'success') {
+        const tbody = document.querySelector('#userTable tbody');
+        tbody.innerHTML = '';
+        res.users.forEach(u => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${u[0]}</td><td>${u[1]}</td><td>${u[2]}</td><td>${u[3]}</td><td>${u[4]}</td><td>${u[5]}</td>`;
+          tbody.appendChild(tr);
+        });
+      }
+    })();
+    // Ambil data presensi
+    (async function() {
+      const res = await apiRequest({action: 'getPresensi'});
+      if (res.status === 'success') {
+        allPresensi = res.presensi;
+        renderPresensiTable();
+      }
+    })();
+    // Render tabel presensi dengan filter
+    window.renderPresensiTable = function() {
+      const kelompok = document.getElementById('filterKelompok').value.trim().toLowerCase();
+      const tanggal = document.getElementById('filterTanggal').value;
+      const tbody = document.querySelector('#presensiTable tbody');
+      tbody.innerHTML = '';
+      allPresensi.filter(p => {
+        let match = true;
+        if (kelompok) match = match && p[3].toLowerCase().includes(kelompok);
+        if (tanggal) {
+          const tgl = new Date(p[0]);
+          const tglStr = tgl.toISOString().slice(0,10);
+          match = match && (tglStr === tanggal);
+        }
+        return match;
+      }).forEach(p => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${new Date(p[0]).toLocaleString()}</td><td>${p[1]}</td><td>${p[2]}</td><td>${p[3]}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+    // Export presensi ke CSV
+    window.exportPresensiCSV = function() {
+      let csv = 'Tanggal & Waktu,ID User,Nama,Kelompok\n';
+      const kelompok = document.getElementById('filterKelompok').value.trim().toLowerCase();
+      const tanggal = document.getElementById('filterTanggal').value;
+      allPresensi.filter(p => {
+        let match = true;
+        if (kelompok) match = match && p[3].toLowerCase().includes(kelompok);
+        if (tanggal) {
+          const tgl = new Date(p[0]);
+          const tglStr = tgl.toISOString().slice(0,10);
+          match = match && (tglStr === tanggal);
+        }
+        return match;
+      }).forEach(p => {
+        csv += `"${new Date(p[0]).toLocaleString()}","${p[1]}","${p[2]}","${p[3]}"\n`;
+      });
+      const blob = new Blob([csv], {type: 'text/csv'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'data_presensi.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html> 

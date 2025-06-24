@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Presensi QR</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h2>Login</h2>
+  <form id="loginForm">
+    <label>Email:<br><input type="email" name="email" required></label><br>
+    <label>Password:<br><input type="password" name="password" required></label><br>
+    <label>Login sebagai:<br>
+      <select name="role" required>
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+      </select>
+    </label><br>
+    <button type="submit">Login</button>
+  </form>
+  <div id="result" style="margin-top:20px;"></div>
+
+  <script src="js/hash.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.getElementById('loginForm').onsubmit = async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const role = form.role.value;
+      const hashed = await sha256(form.password.value);
+      const data = {
+        action: role === 'user' ? 'login' : 'adminLogin',
+        email: form.email.value,
+        password: hashed
+      };
+      document.getElementById('result').innerText = 'Memproses...';
+      const res = await apiRequest(data);
+      if (res.status === 'success') {
+        if (role === 'user') {
+          setUserSession({id: res.id, email: form.email.value});
+          window.location.href = 'dashboard.html';
+        } else {
+          setAdminSession({email: form.email.value});
+          window.location.href = 'admin.html';
+        }
+      } else {
+        document.getElementById('result').innerText = 'Gagal: ' + res.message;
+        if (res.message && res.message.includes('verifikasi')) {
+          document.getElementById('result').innerHTML += '<br><b>Silakan cek email Anda untuk verifikasi akun.</b>';
+        }
+      }
+    };
+  </script>
+</body>
+</html> 
