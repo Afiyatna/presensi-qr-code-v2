@@ -47,9 +47,6 @@
         }
       } else {
         document.getElementById('result').innerText = 'Gagal: ' + res.message;
-        if (res.message && res.message.includes('verifikasi')) {
-          document.getElementById('result').innerHTML += '<br><b>Silakan cek email Anda untuk verifikasi akun.</b>';
-        }
       }
     };
   </script>

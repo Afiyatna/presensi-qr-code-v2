@@ -46,8 +46,7 @@
       document.getElementById('result').innerText = 'Mendaftarkan...';
       const res = await apiRequest(data);
       if (res.status === 'success') {
-        document.getElementById('result').innerHTML = 'Registrasi berhasil!<br>Silakan cek email untuk verifikasi akun Anda.';
-        if (res.message) document.getElementById('result').innerHTML += '<br>' + res.message;
+        document.getElementById('result').innerHTML = 'Registrasi berhasil!<br>ID Anda: ' + res.id;
         document.getElementById('qrcode').innerHTML = '';
         new QRCode(document.getElementById('qrcode'), {
           text: res.id,

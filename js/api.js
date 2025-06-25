@@ -1,5 +1,5 @@
 // Ganti URL di bawah dengan URL Web App Google Apps Script Anda
-defaultScriptUrl = 'https://script.google.com/macros/s/AKfycbw_tf9zJYsL20b5fyJ6bCbza7V3Kt-Z9R5Nz_9OBRW5x_UBKG2jLF8DZEFK4B5kRdaK/exec';
+defaultScriptUrl = 'https://script.google.com/macros/s/AKfycbyiy3UELCTHqH1nSo7WbQCiDk2u21hfLQW3AKBC2nMqboIK7cPvnHX0awlJj1fcEkXH/exec';
 
 async function apiRequest(data, scriptUrl) {
   const url = scriptUrl || defaultScriptUrl;
