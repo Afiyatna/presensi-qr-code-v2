@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem Presensi QR Code</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .hero {
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: white;
+      margin-bottom: 40px;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+    .menu-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    .menu-card {
+      background: white;
+      border-radius: 12px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+    .menu-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+    .menu-icon {
+      font-size: 3rem;
+      margin-bottom: 16px;
+      color: #2563eb;
+    }
+    .menu-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      color: #1e293b;
+    }
+    .menu-card p {
+      color: #64748b;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .menu-btn {
+      background: #2563eb;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+    .menu-btn:hover {
+      background: #1d4ed8;
+    }
+    .scanner-btn {
+      background: #059669;
+    }
+    .scanner-btn:hover {
+      background: #047857;
+    }
+    .register-btn {
+      background: #dc2626;
+    }
+    .register-btn:hover {
+      background: #b91c1c;
+    }
+    .login-btn {
+      background: #7c3aed;
+    }
+    .login-btn:hover {
+      background: #6d28d9;
+    }
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .menu-container {
+        grid-template-columns: 1fr;
+        padding: 0 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <h1>📱 Sistem Presensi QR Code</h1>
+    <p>Presensi mudah dan cepat dengan scan QR Code</p>
+  </div>
+
+  <div class="menu-container">
+    <a href="scanner.html" class="menu-card">
+      <div class="menu-icon">📷</div>
+      <h3>Scanner QR</h3>
+      <p>Scan QR Code untuk melakukan presensi. Buka halaman ini untuk mencatat kehadiran.</p>
+      <div class="menu-btn scanner-btn">Mulai Scan</div>
+    </a>
+
+    <a href="register.html" class="menu-card">
+      <div class="menu-icon">📝</div>
+      <h3>Daftar Akun</h3>
+      <p>Belum punya akun? Daftar sekarang untuk mendapatkan QR Code unik Anda.</p>
+      <div class="menu-btn register-btn">Daftar Sekarang</div>
+    </a>
+
+    <a href="login.html" class="menu-card">
+      <div class="menu-icon">🔐</div>
+      <h3>Login</h3>
+      <p>Sudah punya akun? Login untuk mengakses dashboard dan melihat riwayat presensi.</p>
+      <div class="menu-btn login-btn">Login</div>
+    </a>
+  </div>
+
+  <div style="text-align: center; margin-top: 20px;">
+    <a href="admin.html" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">👨‍💼 Admin Login</a>
+  </div>
+
+  <div style="text-align: center; margin-top: 40px; color: #64748b;">
+    <p>© 2024 Sistem Presensi QR Code</p>
+  </div>
+</body>
+</html> 
